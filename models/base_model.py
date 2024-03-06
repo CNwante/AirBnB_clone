@@ -28,13 +28,14 @@ class BaseModel:
 
     """
 
-    def __init__(self, id=None, created_at=None, updated_at=None):
+    def __init__(self, *args, **kwargs):
 
         """
         Initializes the BaseModel class
 
         Args:
-            None
+            *args: list multiple args
+            **kwargs: a list of keyword arguments
 
         Return:
             None
