@@ -40,10 +40,29 @@ class BaseModel:
         Return:
             None
         """
+        self.id = None
+        self.created_at = None
+        self.updated_at = None
 
-        self.id = str(uuid.uuid4())
-        self.created_at = datetime.now()
-        self.updated_at = datetime.now()
+        if kwargs is not None:
+
+            for key, value in kwargs.items():
+                if key == "__class__":
+                    continue
+                else:
+                    if key == "created_at" or key == "updated_at":
+                        setattr(self, key, datetime.fromisoformat(value))
+                    else:
+                        setattr(self, key, value)
+
+        if self.id is None:
+            self.id = str(uuid.uuid4())
+
+        if self.created_at is None:
+            self.created_at = datetime.now()
+
+        if self.updated_at is None:
+            self.updated_at = datetime.now()
 
 
     def __str__(self):
@@ -95,7 +114,5 @@ class BaseModel:
         new_dict['created_at'] = created_format
         new_dict['updated_at'] = updated_format
 
-        return new_dict
-
-        
+        return new_dict     
     
