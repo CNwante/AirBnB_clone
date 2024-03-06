@@ -40,9 +40,21 @@ class BaseModel:
             None
         """
 
-        id = str(uuid.uuid4())
-        created_at = datetime.now()
-        updated_at = created_at
+        self.id = str(uuid.uuid4())
+        self.created_at = datetime.now()
+        self.updated_at = created_at
 
 
+    def __str__(self):
+        """
+        Prints a formaatted string to stdout
 
+        Args:
+            None
+
+        Return:
+            string format
+        """
+
+        return '[{}] (<{}>) <{}>'.format(self.__name__,
+                self.id, self.__dict__)
