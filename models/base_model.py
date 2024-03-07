@@ -7,6 +7,8 @@ and methods for other classes in our hbnb project
 
 import uuid
 from datetime import datetime
+from models.__init__ import storage
+
 
 class BaseModel:
 
@@ -18,18 +20,17 @@ class BaseModel:
 
         id (str) : assign with an uuid when an instance is created
         created_at (datetime): assign current datetime when instance is created
-        updated_at (datetime): assign current datetime every time object is updated
+        updated_at (datetime): assign datetime every time object is updated
 
     Methods defined:
 
         __str__() -> None: print formatted string
         save() -> None : updates the instance attribute updated_at
-        to_dict() -> dict : returns dict containing all keys and values of instance
+        to_dict() -> dict : returns dict (keys and values of instance)
 
     """
 
     def __init__(self, *args, **kwargs):
-
         """
         Initializes the BaseModel class
 
@@ -45,7 +46,6 @@ class BaseModel:
         self.updated_at = None
 
         if kwargs is not None:
-
             for key, value in kwargs.items():
                 if key == "__class__":
                     continue
@@ -54,15 +54,14 @@ class BaseModel:
                         setattr(self, key, datetime.fromisoformat(value))
                     else:
                         setattr(self, key, value)
-
+        
         if self.id is None:
             self.id = str(uuid.uuid4())
-
         if self.created_at is None:
             self.created_at = datetime.now()
-
         if self.updated_at is None:
             self.updated_at = datetime.now()
+
 
 
     def __str__(self):
@@ -75,13 +74,13 @@ class BaseModel:
         Return:
             string format
         """
+        str_name = type(self).__name__
 
-        return '[{}] ({}) {}'.format(type(self).__name__,
-                self.id, self.__dict__)
+        return "[{}] ({}) {}".format(str_name, self.id, self.__dict__)
 
     def save(self):
         """
-        Update the updated_at attribute 
+        Update the updated_at attribute
 
         Args:
             None
@@ -89,10 +88,10 @@ class BaseModel:
         Return:
             None
         """
-
         self.updated_at = datetime.now()
+        storage.new(self)
+        storage.save()
         pass
-
 
     def to_dict(self):
         """
@@ -110,9 +109,8 @@ class BaseModel:
 
         new_dict = self.__dict__.copy()
 
-        new_dict['__class__'] = type(self).__name__
-        new_dict['created_at'] = created_format
-        new_dict['updated_at'] = updated_format
+        new_dict["__class__"] = type(self).__name__
+        new_dict["created_at"] = created_format
+        new_dict["updated_at"] = updated_format
 
-        return new_dict     
-    
+        return new_dict
