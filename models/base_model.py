@@ -66,8 +66,6 @@ class BaseModel:
             BaseModel.__isnewinstance = True
             storage.new(self)
 
-
-
     def __str__(self):
         """
         Prints a formaatted string to stdout
