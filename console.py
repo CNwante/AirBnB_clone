@@ -7,6 +7,8 @@ Program ``console.py`` contains the entry point of the command interpreter
 import cmd
 from models.base_model import BaseModel
 from models.__init__ import storage
+import json
+import shlex
 
 
 class HBNBCommand(cmd.Cmd):
@@ -21,6 +23,7 @@ class HBNBCommand(cmd.Cmd):
         help() -> documentation of commands
 
     """
+
     prompt = "(hbnb) "
 
     def do_quit(self, arg):
@@ -75,11 +78,11 @@ class HBNBCommand(cmd.Cmd):
         prints a string rep of an instance
         """
 
-        arg_list = arg.split(' ')
-        
+        arg_list = arg.split(" ")
+
         if len(arg_list) == 0:
             print("** class name missing **")
-        elif arg_list[0].lower() not in ['basemodel']:
+        elif arg_list[0].lower() not in ["basemodel"]:
             print("** class doesn't exist **")
         elif len(arg_list) != 2:
             print("** instance id missing **")
@@ -88,11 +91,8 @@ class HBNBCommand(cmd.Cmd):
             all_objects = storage.all()
 
             for key, value in all_objects.items():
-
-                if value['__class__'].lower() == arg_list[0].lower():
-
-                    if value['id'] == arg_list[1]:
-
+                if value["__class__"].lower() == arg_list[0].lower():
+                    if value["id"] == arg_list[1]:
                         obj_found = value
                         break
             if obj_found:
@@ -101,7 +101,7 @@ class HBNBCommand(cmd.Cmd):
             else:
                 print("** no instance found **")
 
-    def help_show(self, arg):
+    def help_show(self):
         """
         Documentation for ``show``
         """
@@ -112,10 +112,10 @@ class HBNBCommand(cmd.Cmd):
         Deletes an instance based on the class
         """
 
-        arg_list = arg.split(' ')
+        arg_list = arg.split(" ")
         if len(arg_list) == 0:
             print("** class name missing **")
-        elif arg_list[0].lower() not in ['basemodel']:
+        elif arg_list[0].lower() not in ["basemodel"]:
             print("** class doesn't exist **")
         elif len(arg_list) != 2:
             print("** instance id missing **")
@@ -124,15 +124,91 @@ class HBNBCommand(cmd.Cmd):
             all_objects = storage.all()
 
             for key, value in all_objects.items():
-                if value['__class__'].lower() == arg_list[0].lower():
-                    if value['id'] == arg_list[1]:
-
+                if value["__class__"].lower() == arg_list[0].lower():
+                    if value["id"] == arg_list[1]:
                         obj_found = key
                         break
             if obj_found:
                 del all_objects[obj_found]
+
+                with open("file.json", "w", encoding="utf-8") as f:
+                    json.dump(all_objects, f, indent=4, sort_keys=True)
             else:
-                pass # Should I use the file name directly since I know it?
+                print("** no instance found **")
+
+    def help_destroy(self):
+        """
+        Documentation for ``destroy``
+        """
+        print("`destroy` deletes an obj. Usage: `destroy` (classname) (id)``")
+
+    def do_all(self, arg):
+        """
+        Prints all string rep of all instances
+        """
+        new_list = []
+
+        if len(arg) == 0:
+            all_objects = storage.all()
+
+            for key, value in all_objects.items():
+                new_instance = BaseModel(**value)
+                new_list.append(str(new_instance))
+            print(new_list)
+
+        elif arg is not None:
+            if arg.strip().lower() not in ['basemodel']:
+                print("** class doesn't exist **")
+            else:
+                all_objects = storage.all()
+
+                for key, value in all_objects.items():
+                    
+                    if value["__class__"].lower() == arg.strip().lower():
+                        new_instance = BaseModel(**value)
+                        new_list.append(str(new_instance))
+                print(new_list)
+
+    def help_all(self):
+        """
+        Documentation for all command
+        """
+        print("`all`: used to print objs in list")
+
+    def do_update(self, arg):
+        """
+        Updates an instance based on classname and id
+        """
+
+        arg_list = arg.split(" ")
+        if len(arg_list) == 0:
+            print("** class name missing **")
+        elif arg_list[0].lower() not in ["basemodel"]:
+            print("** class doesn't exist **")
+        elif len(arg_list) == 1:
+            print("** instance id missing **")
+        else:
+            obj_found = False
+            all_objects = storage.all()
+
+            for key, value in all_objects.items():
+
+                if value["__class__"].lower() == arg_list[0].lower():
+                    if value['id'] == arg_list[1]:
+                        obj_found = True
+                        obj_value = value
+                        break
+            if obj_found is False:
+                print("** no instance found **")
+            elif len(arg_list) == 2:
+                print("** attribute name missing **")
+            elif len(arg_list) == 3:
+                print("** value missing **")
+            else:
+                obj_value[arg_list[2]] = (shlex.split(arg_list[3])[0])
+                
+                with open("file.json", "w", encoding="utf-8") as f:
+                    json.dump(all_objects, f, indent=4, sort_keys=True)
 
     def emptyline(self):
         """
