@@ -7,6 +7,7 @@ and methods for other classes in our hbnb project
 
 import uuid
 from datetime import datetime
+from models.__init__ import storage
 
 
 class BaseModel:
@@ -53,15 +54,15 @@ class BaseModel:
                         setattr(self, key, datetime.fromisoformat(value))
                     else:
                         setattr(self, key, value)
-
+        
         if self.id is None:
             self.id = str(uuid.uuid4())
-
         if self.created_at is None:
             self.created_at = datetime.now()
-
         if self.updated_at is None:
             self.updated_at = datetime.now()
+
+
 
     def __str__(self):
         """
@@ -87,8 +88,9 @@ class BaseModel:
         Return:
             None
         """
-
         self.updated_at = datetime.now()
+        storage.new(self)
+        storage.save()
         pass
 
     def to_dict(self):
