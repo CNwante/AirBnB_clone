@@ -25,11 +25,10 @@ class User(BaseModel):
     first_name = ""
     last_name = ""
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         """
         Initializes the ``User()`` class
         """
-        pass
+        super().__init__(*args, **kwargs)
+
     pass
-
-

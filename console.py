@@ -9,6 +9,7 @@ from models.base_model import BaseModel
 from models.__init__ import storage
 import json
 import shlex
+from models.user import User
 
 
 class HBNBCommand(cmd.Cmd):
@@ -60,10 +61,13 @@ class HBNBCommand(cmd.Cmd):
 
         if not class_name:
             print("** class name missing **")
-        elif class_name not in ["basemodel"]:
+        elif class_name not in ["basemodel", "user"]:
             print("** class doesn't exist **")
         else:
-            new_instance = BaseModel()
+            if class_name == "user":
+                new_instance = User()
+            else:
+                new_instance = BaseModel()
             new_instance.save()
             print(new_instance.id)
 
@@ -82,7 +86,7 @@ class HBNBCommand(cmd.Cmd):
 
         if len(arg_list) == 0:
             print("** class name missing **")
-        elif arg_list[0].lower() not in ["basemodel"]:
+        elif arg_list[0].lower() not in ["basemodel", "user"]:
             print("** class doesn't exist **")
         elif len(arg_list) != 2:
             print("** instance id missing **")
@@ -96,7 +100,10 @@ class HBNBCommand(cmd.Cmd):
                         obj_found = value
                         break
             if obj_found:
-                new_instance = BaseModel(**value)
+                if obj_found["__class__"].lower() == "user":
+                    new_instance = User(**value)
+                else:
+                    new_instance = BaseModel(**value)
                 print(new_instance)
             else:
                 print("** no instance found **")
@@ -115,7 +122,7 @@ class HBNBCommand(cmd.Cmd):
         arg_list = arg.split(" ")
         if len(arg_list) == 0:
             print("** class name missing **")
-        elif arg_list[0].lower() not in ["basemodel"]:
+        elif arg_list[0].lower() not in ["basemodel", "user"]:
             print("** class doesn't exist **")
         elif len(arg_list) != 2:
             print("** instance id missing **")
@@ -152,20 +159,25 @@ class HBNBCommand(cmd.Cmd):
             all_objects = storage.all()
 
             for key, value in all_objects.items():
-                new_instance = BaseModel(**value)
+                if value["__class__"].lower() == "user":
+                    new_instance = User(**value)
+                else:
+                    new_instance = BaseModel(**value)
                 new_list.append(str(new_instance))
             print(new_list)
 
         elif arg is not None:
-            if arg.strip().lower() not in ['basemodel']:
+            if arg.strip().lower() not in ["basemodel", "user"]:
                 print("** class doesn't exist **")
             else:
                 all_objects = storage.all()
 
                 for key, value in all_objects.items():
-                    
                     if value["__class__"].lower() == arg.strip().lower():
-                        new_instance = BaseModel(**value)
+                        if value["__class__"].lower() == "user":
+                            new_instance = User(**value)
+                        else:
+                            new_instance = BaseModel(**value)
                         new_list.append(str(new_instance))
                 print(new_list)
 
@@ -183,7 +195,7 @@ class HBNBCommand(cmd.Cmd):
         arg_list = arg.split(" ")
         if len(arg_list) == 0:
             print("** class name missing **")
-        elif arg_list[0].lower() not in ["basemodel"]:
+        elif arg_list[0].lower() not in ["basemodel", "user"]:
             print("** class doesn't exist **")
         elif len(arg_list) == 1:
             print("** instance id missing **")
@@ -192,9 +204,8 @@ class HBNBCommand(cmd.Cmd):
             all_objects = storage.all()
 
             for key, value in all_objects.items():
-
                 if value["__class__"].lower() == arg_list[0].lower():
-                    if value['id'] == arg_list[1]:
+                    if value["id"] == arg_list[1]:
                         obj_found = True
                         obj_value = value
                         break
@@ -205,10 +216,17 @@ class HBNBCommand(cmd.Cmd):
             elif len(arg_list) == 3:
                 print("** value missing **")
             else:
-                obj_value[arg_list[2]] = (shlex.split(arg_list[3])[0])
-                
+                obj_value[arg_list[2]] = shlex.split(arg_list[3])[0]
+
                 with open("file.json", "w", encoding="utf-8") as f:
                     json.dump(all_objects, f, indent=4, sort_keys=True)
+
+    def help_update(self):
+        """
+        Documentation for `update` command
+        """
+        print("update an attribute in an obj")
+        print('Usage: <class name> <id> <attr name> "<attr value>"')
 
     def emptyline(self):
         """

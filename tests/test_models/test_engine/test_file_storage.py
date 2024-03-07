@@ -63,6 +63,5 @@ class TestFileStorage(unittest.TestCase):
         self.assertIsInstance(loaded_model, dict)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
-

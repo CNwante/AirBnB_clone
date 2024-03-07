@@ -118,9 +118,7 @@ class FileStorage:
                     new_obj = json.load(file)
                     for key, value in new_obj.items():
                         new_dict[key] = value
-                except:
+                except json.JSONDecodeError:
                     pass
 
         FileStorage.__objects = new_dict
-
-

@@ -29,6 +29,7 @@ class BaseModel:
         to_dict() -> dict : returns dict (keys and values of instance)
 
     """
+
     __isnewinstance = False
 
     def __init__(self, *args, **kwargs):
@@ -56,7 +57,7 @@ class BaseModel:
                         setattr(self, key, datetime.fromisoformat(value))
                     else:
                         setattr(self, key, value)
-        
+
         if self.created_at is None:
             self.created_at = datetime.now()
         if self.updated_at is None:
