@@ -1,18 +1,18 @@
 #!/usr/bin/python3
 
 """
-State Module to create a state class for our hbnb project
+Amenity Module to create a amenity class for our hbnb project
 """
 
 from models.base_model import BaseModel
 
-class State(BaseModel):
+class Amenity(BaseModel):
     """
-    State class to store the States of users
+    Amenity class to store the amenities of users
 
 
     Attributes:
-        name (str): name of the state
+        name (str): name
 
     Methods:
         None
