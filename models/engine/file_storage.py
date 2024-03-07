@@ -98,7 +98,7 @@ class FileStorage:
             None
         """
         with open(FileStorage.__file_path, "w", encoding="utf-8") as file:
-            json.dump(FileStorage.__objects, file, indent=4)
+            json.dump(FileStorage.__objects, file, indent=4, sort_keys=True)
 
     def reload(self):
         """

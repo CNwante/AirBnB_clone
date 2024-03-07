@@ -29,6 +29,7 @@ class BaseModel:
         to_dict() -> dict : returns dict (keys and values of instance)
 
     """
+    __isnewinstance = False
 
     def __init__(self, *args, **kwargs):
         """
@@ -41,6 +42,7 @@ class BaseModel:
         Return:
             None
         """
+        BaseModel.__isnewinstance = False
         self.id = None
         self.created_at = None
         self.updated_at = None
@@ -55,12 +57,14 @@ class BaseModel:
                     else:
                         setattr(self, key, value)
         
-        if self.id is None:
-            self.id = str(uuid.uuid4())
         if self.created_at is None:
             self.created_at = datetime.now()
         if self.updated_at is None:
             self.updated_at = datetime.now()
+        if self.id is None:
+            self.id = str(uuid.uuid4())
+            BaseModel.__isnewinstance = True
+            storage.new(self)
 
 
 
@@ -89,7 +93,8 @@ class BaseModel:
             None
         """
         self.updated_at = datetime.now()
-        storage.new(self)
+        if BaseModel.__isnewinstance is True:
+            storage.new(self)
         storage.save()
         pass
 
