@@ -324,7 +324,8 @@ class HBNBCommand(cmd.Cmd):
         """
         Documentation to print the User classes
         """
-        print("*** Prints all the user classes")
+        print("Prints all the user classes")
+        print("Usage: User.all()")
 
     def do_City(self, all):
         """
@@ -334,7 +335,7 @@ class HBNBCommand(cmd.Cmd):
         all_objects = storage.all()
         obj_list = []
 
-        for key, value in all_objects .items():
+        for key, value in all_objects.items():
 
             class_name = value["__class__"].lower()
 
@@ -343,6 +344,93 @@ class HBNBCommand(cmd.Cmd):
                 obj_list.append(str(new_instance))
 
         print(obj_list)
+
+    def help_City(self):
+        """
+        Documentation for the City class
+        """
+
+        print("Prints all objects that belong to the City class")
+        print("Usage: City.all()")
+
+    def do_Place(self, all):
+        """
+        Prints all objects that belong to the Place class
+        """
+
+        all_objects = storage.all()
+        obj_list = []
+
+        for key, value in all_objects.items():
+
+            class_name = value["__class__"].lower()
+
+            if class_name == "place":
+                new_instance = Place(**value)
+                obj_list.append(str(new_instance))
+
+        print(obj_list)
+
+    def help_Place(self):
+        """
+        Documentation for the Place class
+        """
+
+        print("Prints all objects that belong to the Place class")
+        print("Usage: Place.all()")
+
+    def do_Amenity(self, all):
+        """
+        Prints all objects that belong to the Amenity class
+        """
+
+        all_objects = storage.all()
+        obj_list = []
+
+        for key, value in all_objects.items():
+
+            class_name = value["__class__"].lower()
+
+            if class_name == "amenity":
+                new_instance = Amenity(**value)
+                obj_list.append(str(new_instance))
+
+        print(obj_list)
+
+    def help_Amenity(self):
+        """
+        Documentation for the City class
+        """
+
+        print("Prints all objects that belong to the Amenity class")
+        print("Usage: Amenity.all()")
+
+    def do_Amenity(self, all):
+        """
+        Prints all objects that belong to the Amenity class
+        """
+
+        all_objects = storage.all()
+        obj_list = []
+
+        for key, value in all_objects.items():
+
+            class_name = value["__class__"].lower()
+
+            if class_name == "amenity":
+                new_instance = Amenity(**value)
+                obj_list.append(str(new_instance))
+
+        print(obj_list)
+
+    def help_Amenity(self):
+        """
+        Documentation for the City class
+        """
+
+        print("Prints all objects that belong to the Amenity class")
+        print("Usage: Amenity.all()")
+        
 
     def emptyline(self):
         """
