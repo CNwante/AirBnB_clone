@@ -303,6 +303,47 @@ class HBNBCommand(cmd.Cmd):
         print("update an attribute in an obj")
         print('Usage: <class name> <id> <attr name> "<attr value>"')
 
+    def do_User(self, all):
+        """
+        Prints the object that belong to this class
+        """
+
+        all_objects = storage.all()
+        obj_list = []
+
+        for key, value in all_objects.items():
+
+            class_name = value["__class__"].lower()
+
+            if class_name == "user":
+                new_instance = User(**value)
+                obj_list.append(str(new_instance))
+        print(obj_list)
+
+    def help_User(self):
+        """
+        Documentation to print the User classes
+        """
+        print("*** Prints all the user classes")
+
+    def do_City(self, all):
+        """
+        Prints the objects that belong to this class
+        """
+
+        all_objects = storage.all()
+        obj_list = []
+
+        for key, value in all_objects .items():
+
+            class_name = value["__class__"].lower()
+
+            if class_name == "city":
+                new_instance = City(**value)
+                obj_list.append(str(new_instance))
+
+        print(obj_list)
+
     def emptyline(self):
         """
         Handle empty line.
