@@ -84,9 +84,11 @@ class HBNBCommand(cmd.Cmd):
             elif class_name == "state":
                 new_instance = State()
             elif class_name == "city":
-                new_instance = Amenity()
+                new_instance = City()
             elif class_name == "review":
                 new_instance = Review()
+            elif class_name == "amenity":
+                new_instance = Amenity()
             else:
                 new_instance = BaseModel()
             new_instance.save()
@@ -220,10 +222,9 @@ class HBNBCommand(cmd.Cmd):
                 else:
                     new_instance = BaseModel(**value)
                 new_list.append(str(new_instance))
-            print(new_list)
 
         elif arg is not None:
-            if arg.strip().lower() not in ["basemodel", "user"]:
+            if arg.strip().lower() not in ["basemodel", "user", "place", "state", "amenity", "review"]:
                 print("** class doesn't exist **")
             else:
                 all_objects = storage.all()
@@ -245,7 +246,7 @@ class HBNBCommand(cmd.Cmd):
                         else:
                             new_instance = BaseModel(**value)
                         new_list.append(str(new_instance))
-                print(new_list)
+        print(new_list)
 
     def help_all(self):
         """
