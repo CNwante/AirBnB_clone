@@ -8,7 +8,7 @@ from models.base_model import BaseModel
 
 class Review(BaseModel):
     """
-    Review class to store the cities of users
+    Review class to store the reviews of users
 
 
     Attributes:

@@ -6,6 +6,11 @@ Program ``console.py`` contains the entry point of the command interpreter
 
 import cmd
 from models.base_model import BaseModel
+from models.amenity import Amenity
+from models.city import City
+from models.place import Place
+from models.review import Review
+from models.state import State
 from models.__init__ import storage
 import json
 import shlex
@@ -61,11 +66,27 @@ class HBNBCommand(cmd.Cmd):
 
         if not class_name:
             print("** class name missing **")
-        elif class_name not in ["basemodel", "user"]:
+        elif class_name not in [
+                "basemodel",
+                "user",
+                "place",
+                "state",
+                "city",
+                "amenity",
+                "review"
+                ]:
             print("** class doesn't exist **")
         else:
             if class_name == "user":
                 new_instance = User()
+            elif class_name == "place":
+                new_instance = Place()
+            elif class_name == "state":
+                new_instance = State()
+            elif class_name == "city":
+                new_instance = Amenity()
+            elif class_name == "review":
+                new_instance = Review()
             else:
                 new_instance = BaseModel()
             new_instance.save()
@@ -86,7 +107,14 @@ class HBNBCommand(cmd.Cmd):
 
         if len(arg_list) == 0:
             print("** class name missing **")
-        elif arg_list[0].lower() not in ["basemodel", "user"]:
+        elif arg_list[0].lower() not in [
+            "basemodel",
+            "user",
+            "place",
+            "city",
+            "amenity",
+            "review",
+        ]:
             print("** class doesn't exist **")
         elif len(arg_list) != 2:
             print("** instance id missing **")
@@ -100,8 +128,18 @@ class HBNBCommand(cmd.Cmd):
                         obj_found = value
                         break
             if obj_found:
-                if obj_found["__class__"].lower() == "user":
+                class_name = obj_found["__class__"].lower()
+
+                if class_name == "user":
                     new_instance = User(**value)
+                elif class_name == "place":
+                    new_instance = Place(**value)
+                elif class_name == "city":
+                    new_instance = City(**value)
+                elif class_name == "amenity":
+                    new_instance = Amenity(**value)
+                elif class_name == "review":
+                    new_instance = Review(**value)
                 else:
                     new_instance = BaseModel(**value)
                 print(new_instance)
@@ -122,7 +160,15 @@ class HBNBCommand(cmd.Cmd):
         arg_list = arg.split(" ")
         if len(arg_list) == 0:
             print("** class name missing **")
-        elif arg_list[0].lower() not in ["basemodel", "user"]:
+        elif arg_list[0].lower() not in [
+                "basemodel",
+                "user",
+                "place",
+                "state",
+                "city",
+                "amenity",
+                "review"
+                ]:
             print("** class doesn't exist **")
         elif len(arg_list) != 2:
             print("** instance id missing **")
@@ -159,8 +205,18 @@ class HBNBCommand(cmd.Cmd):
             all_objects = storage.all()
 
             for key, value in all_objects.items():
-                if value["__class__"].lower() == "user":
+                class_name = value["__class__"].lower()
+
+                if class_name == "user":
                     new_instance = User(**value)
+                elif class_name == "place":
+                    new_instance = Place(**value)
+                elif class_name == "state":
+                    new_instance = State(**value)
+                elif class_name == "amenity":
+                    new_instance = Amenity(**value)
+                elif class_name == "review":
+                    new_instance = Review(**value)
                 else:
                     new_instance = BaseModel(**value)
                 new_list.append(str(new_instance))
@@ -173,9 +229,19 @@ class HBNBCommand(cmd.Cmd):
                 all_objects = storage.all()
 
                 for key, value in all_objects.items():
-                    if value["__class__"].lower() == arg.strip().lower():
-                        if value["__class__"].lower() == "user":
+                    class_name = value["__class__"].lower()
+
+                    if class_name == arg.strip().lower():
+                        if class_name == "user":
                             new_instance = User(**value)
+                        elif class_name == "place":
+                            new_instance = Place(**value)
+                        elif class_name == "state":
+                            new_instance = State(**value)
+                        elif class_name == "amenity":
+                            new_instance = Amenity(**value)
+                        elif class_name == "review":
+                            new_instance = Review(**value)
                         else:
                             new_instance = BaseModel(**value)
                         new_list.append(str(new_instance))
@@ -195,7 +261,15 @@ class HBNBCommand(cmd.Cmd):
         arg_list = arg.split(" ")
         if len(arg_list) == 0:
             print("** class name missing **")
-        elif arg_list[0].lower() not in ["basemodel", "user"]:
+        elif arg_list[0].lower() not in [
+                "basemodel",
+                "user",
+                "place",
+                "state",
+                "city",
+                "amenity",
+                "review"
+                ]:
             print("** class doesn't exist **")
         elif len(arg_list) == 1:
             print("** instance id missing **")
