@@ -405,9 +405,9 @@ class HBNBCommand(cmd.Cmd):
         print("Prints all objects that belong to the Amenity class")
         print("Usage: Amenity.all()")
 
-    def do_Amenity(self, all):
+    def do_State(self, all):
         """
-        Prints all objects that belong to the Amenity class
+        Prints all objects that belong to the State class
         """
 
         all_objects = storage.all()
@@ -417,20 +417,45 @@ class HBNBCommand(cmd.Cmd):
 
             class_name = value["__class__"].lower()
 
-            if class_name == "amenity":
-                new_instance = Amenity(**value)
+            if class_name == "state":
+                new_instance = State(**value)
                 obj_list.append(str(new_instance))
 
         print(obj_list)
 
-    def help_Amenity(self):
+    def help_State(self):
         """
-        Documentation for the City class
+        Documentation for the State class
         """
 
-        print("Prints all objects that belong to the Amenity class")
-        print("Usage: Amenity.all()")
-        
+        print("Prints all objects that belong to the State class")
+        print("Usage: State.all()")
+
+    def do_Review(self, all):
+        """
+        Prints all objects that belong to the Review class
+        """
+
+        all_objects = storage.all()
+        obj_list = []
+
+        for key, value in all_objects.items():
+
+            class_name = value['__class__'].lower()
+
+            if class_name == "review":
+                new_instance = Review(**value)
+                obj_list.append(str(new_instance))
+
+        print(obj_list)
+
+    def help_Review(self):
+        """
+        Documentation for the Review class
+        """
+
+        print("Prints all objects that belong to the Review class")
+        print("Usage: Review.all()")
 
     def emptyline(self):
         """
