@@ -290,5 +290,5 @@ $ python3 unittest -m tests/test_console.py
 
 ## Authors :black_nib:
 * **Solomon Nwante** <[CNwante](https://github.com/CNwante)>
-* **Donald D.** <[Donald](https://github.com/)>
+* **Donald D.** <[Donald](https://github.com/donumeh)>
 
