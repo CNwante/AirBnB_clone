@@ -1,0 +1,89 @@
+/* Common style for all <ul> elements */
+ul {
+  padding: 0;
+}
+
+/* Other styles */
+.places .content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.places h1 {
+  font-size: 30px;
+}
+
+.places .article {
+  width: 390px;
+  padding: 20px;
+  margin: 20px;
+  border: 1px solid #ff5a5f;
+  border-radius: 5px;
+  position: relative;
+}
+
+.places .article .title {
+  font-size: 30px;
+  text-align: center;
+}
+
+.places .price_by_night {
+  position: absolute;
+  top: 0.5em;
+  right: 0.5em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ff5a5f;
+  border: 4px solid #ff5a5f;
+  width: 60px;
+  height: 60px;
+  font-size: 30px;
+  border-radius: 50%;
+  padding: 0.25em;
+}
+
+.information {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  padding: 0.25em 0;
+  margin-bottom: 1.25em;
+  border-top: 1px solid #dddddd;
+  border-bottom: 1px solid #dddddd;
+}
+
+.max_guest,
+.number_rooms,
+.number_bathrooms {
+  width: 100px;
+}
+
+
+.places .amenities_details {
+  margin-top: 40px;
+}
+
+.places .amenities_details h2,
+.places .reviews h2 {
+  font-size: 16px;
+  padding-bottom: .25em;
+  border-bottom: 1px solid #DDDDDD;
+}
+
+
+.places .amenities_details ul li{
+  display: flex;
+  align-items: center;
+}
+
+.amenities_details input {
+  font-size: 16px;
+  height: 1.5em;
+  padding-right: 10px;
+}
+
+.places .reviews h3 {
+  font-size: 14px;
+}
